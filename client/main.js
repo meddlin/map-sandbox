@@ -57,10 +57,11 @@ Template.hello.helpers({
   	let sampleArr = [];
   	
   	for (var i = 0; i < 10; i++) { // we want to start with a sample of 10 dates
-  		sampleArr.push({ id: i, date: new Date().setDate(i) });
+      let tmp = new Date().setDate(i);
+  		sampleArr.push({ id: i, date: new Date(tmp).toLocaleDateString() });
 
   		if (i == 2 || i == 3 || i == 5 || i == 7) { // if i is prime between 0 and 10
-  			sampleArr.push({ id: i + 100, date: new Date().setDate(i) }); // duplicate it for more interesting data set
+  			sampleArr.push({ id: i + 100, date: new Date(tmp).toLocaleDateString() }); // duplicate it for more interesting data set
   		}
   	}
 
@@ -69,14 +70,28 @@ Template.hello.helpers({
   		So, now let's group these objects by date into arrays holding
   		similar days. Then store all of these arrays in a single Map.
   	*/
-  	sampleArr.reduce((acc, curr) => {
-		if (curr.id > 100)
-			console.log(curr.id);
+  	var maply = sampleArr.reduce(function(acc, curr) {
+      if ( acc.has(curr.date) ) {
+        acc.get(curr.date).push(curr);
+      } else {
+        acc.set(curr.date, [curr]);
+      }
 
-		
-	})
+      return acc;
 
-  	return m;
+    }, new Map());
+
+    /*
+      * Desired:
+      * Map = {
+          {2018-03-01, [ {1, 2018-03-01}, {2, 2018-03-01} ]},
+          {2018-03-02, [ {3, 2018-03-02} ]},
+          {2018-03-05, [ {4, 2018-03-05} ]},
+          {2018-03-10, [ {5, 2018-03-10}, {6, 2018-03-10}, {7, 2018-03-10} ]}
+      }
+    */
+
+  	return maply;
   }
 });
 
