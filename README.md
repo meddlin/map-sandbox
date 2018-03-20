@@ -2,6 +2,14 @@
 
 An exercise in the combined use of reduce() the new Map().
 
+### Getting Started
+
+- Make sure you have Meteor installed
+- Clone the repo, start the project
+- Check the console for output
+
+*Note: For now, the results are printed to the browser console because it was easiest and fastest to get things going that way. Later I'll clean it up...or heck, make a PR if you're so inclined.*
+
 ### Where's the code?
 
 Check out the `mapPlay()` helper function in `/client/main.js`...or here's the meat of it, right here.
